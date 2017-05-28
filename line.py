@@ -11,6 +11,8 @@ import numpy as np
 # Define a class to receive the characteristics of each line detection
 class Lane():
     def __init__(self):
+        # When initialized, set first_frame property as True:
+        self.first_frame = True
         # was the line detected in the last iteration?
         self.detected = False
         # x values of the last n fits of the line

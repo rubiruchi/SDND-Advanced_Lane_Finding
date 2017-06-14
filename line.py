@@ -7,30 +7,20 @@ Line Class
 
 @author: ucalegon
 """
-import numpy as np
+
+# TODO: Clean this up, keep only what you need
+
 # Define a class to receive the characteristics of each line detection
 class Lane():
     def __init__(self):
 
-        # x values of the last n fits of the line
-        self.recent_xfitted = []
-        # average x values of the fitted line over the last n iterations
-        self.bestx = None
-
-
-
-        # difference in fit coefficients between last and new fits
-        self.diffs = np.array([0,0,0], dtype='float')
-        # x values for detected line pixels
-        self.allx = None
-        # y values for detected line pixels
-        self.ally = None
-
-        ####
-
-        # When initialized, set first_frame property as True:
+        # When initialized, set first_frame property as True
+        # Initiates a more expensive lane detection method requrired when there is no previous frames
+        # from which to draw.
         self.first_frame = True
-        # was the line detected in the last iteration?
+
+        # Was the line detected in the last iteration?
+        # TODO: do you need this?
         self.detected = False
 
         # X positions of window centers for last n frames
@@ -43,11 +33,11 @@ class Lane():
         # polynomial coefficients for the most recent fit (no avg)
         self.current_fit = None
 
-        # polynomial coefficients averaged over the last n iterations
+        # The avg fitted line given current (if detected/normal) and recent fits
         self.best_fit = None
 
         # radius of curvature of the line in some units
-        self.radius_of_curvature = None
+        self.curverad = None
 
-        # distance in meters of vehicle center from the line
-        self.line_base_pos = None
+        # curve radius to display - updated every few frames for readability
+        self.curverad_display = None

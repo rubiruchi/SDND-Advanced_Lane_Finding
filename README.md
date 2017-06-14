@@ -23,9 +23,8 @@
 ---
 ### Brief Project Description
 
-This code detects lane markings and overlays them atop the video stream of a center-mounted dashboard camera.
+This code detects lane markings and overlays them atop the video stream of a center-mounted dashboard camera. Frames from the video stream are undistorted via camera calibration. Various color encodings, channels and gradient calculations and are combined in order to create a binary image which captures lane markings. The image is perspective transformed into a top-down view of the road, wherein the lane markers should appear parallel. The binary image is then fed into a lane detection algorithm which uses nonzero pixel densities to find lane markings. A second-degree polynomial is fit to both the left and right hand-side lanes. The resultant lane lines (along with text describing lane radii and car offset from center) are then overlaid upon the undistorted video feed and output to an .mp4.
 
-Frames from the video stream are undistorted via camera calibration. Various color encodings, channels and gradient calculations and are combined in order to create a binary image which captures lane markings. The image is perspective transformed into a top-down view of the road, wherein the lane markers should appear parallel. The binary image is then fed into a lane detection algorithm which uses nonzero pixel densities to find lane markings. A second-degree polynomial is fit to both the left and right hand-side lanes. The resultant lane lines (along with text describing lane radii and car offset from center) are then overlaid upon the undistorted video feed and output to an .mp4.
 ---
 
 
@@ -42,13 +41,21 @@ Before/after images of applying undistortion [INSERT]
 
 #### 2. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-Note why 2 & 3 are reversed.
+Frames are perspective transformed in order to provide a top-down view of the road section in question. Finding the transformation matrix.
 
 #### 3. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
+In order to extract lane markings from the camera feed, the code uses a mixture of Sobel gradients (in x, y as well as in magnitude and direction) in addition to three different color encodings - RGB, HSV, & HSL. In order to aggregate information provided by the various channels, I used thresholding to create binary images of different color channels; those binary images were conjoined through binary logic operations and averaging.
+
+[Images of shit]
+
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
+For the first frame, I conducted a window search which identified high density regions of nonzero pixel values. Once the first frame is processed and its lane markings identified, subsequent frames are processed by simply searching in a margin around the (average of) previous lane markings.
+
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+
+Radius of curvature for the second degree polynomial estimating the lane marking was calculated using :::
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 

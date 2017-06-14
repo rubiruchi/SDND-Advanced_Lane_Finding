@@ -3,7 +3,7 @@
 """
 Created on Thu May 25 23:51:43 2017
 
-Line Class
+Lane Class. Or line. Lane Line, but that's verbose.
 
 @author: ucalegon
 """
@@ -15,17 +15,8 @@ class Lane():
     def __init__(self):
 
         # When initialized, set first_frame property as True
-        # Initiates a more expensive lane detection method requrired when there is no previous frames
-        # from which to draw.
+        # Initiates a more expensive lane detection method requrired when there is no info from previous frames
         self.first_frame = True
-
-        # Was the line detected in the last iteration?
-        # TODO: do you need this?
-        self.detected = False
-
-        # X positions of window centers for last n frames
-        # Instead of looking at the histogram, use this for 2...n frames.
-        self.window_base = None
 
         # Keep individual (non_averaged) lane line coeffs for the last n frames
         self.recent_fits = []
@@ -35,6 +26,8 @@ class Lane():
 
         # The avg fitted line given current (if detected/normal) and recent fits
         self.best_fit = None
+
+        self.recent_best_fits = []
 
         # radius of curvature of the line in some units
         self.curverad = None

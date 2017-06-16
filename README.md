@@ -50,51 +50,29 @@ Frames are perspective transformed in order to provide a top-down view of the ro
 
 In order to extract lane markings from the camera feed, the code uses a mixture of Sobel gradients (in x, y as well as in magnitude and direction) in addition to three different color encodings - RGB, HSV, & HSL. In order to aggregate information provided by the various channels, I used thresholding to create binary images of different color channels; those binary images were conjoined through binary logic operations and averaging.
 
-Images showing the various thresholded binary images of different color channels and gradients are shown below. The exact logic for combining these various factors into a final binary image for lane detection is as follows:
+Images showing the various thresholded binary images of different color channels and gradients are shown below. The exact logic for combining these various factors into a final binary image for lane detection is as follows (excerpted from Input[8]):
 
-`threshx = (5, 255)
-sobelx = sobel_thresh(convert_to_grayscale(img, in_type = 'RGB'), orient = 'x', thresh = threshx)
+```python
+sobel_combined[((sobelx == 1) & (dirt == 1)) & (mag == 1)] = 1
 
-threshmag = (10, 255)
-mag = mag_thresh(convert_to_grayscale(img, in_type = 'RGB'), thresh = threshmag)
-threshdir = (np.pi/2-np.pi/8, np.pi/2+np.pi/8)
-dirt = dir_thresh(convert_to_grayscale(img, in_type = 'RGB'), thresh = threshdir)
-
-combined = np.zeros_like(sobelx)
-combined[((sobelx == 1) & (dirt == 1)) & (mag == 1)] = 1
-
-R,G,B = get_RGB_channels(img)
-R_thresh = (215,255)
-G_thresh = (220,255)
-B_thresh = (225,255)
-R_binary = get_binary(R, thresh = R_thresh)
-G_binary = get_binary(G, thresh = G_thresh)
-B_binary = get_binary(B, thresh = B_thresh)
-RGB_combined = np.zeros_like(img[:,:,0])
 RGB_combined[(R_binary == 1) & (G_binary == 1) | (B_binary ==1)] = 1
 
 H, L, S = get_HLS_channels(img)
-S_thresh = (150,255)
 S_binary = get_binary(S, thresh = S_thresh)
 
 H2, S2, V = get_HSV_channels(img)
-S_thresh_2 = (150,255)
-V_thresh = (200, 255)
-S_binary_2 = get_binary(S2, thresh = S_thresh_2)
-V_binary = get_binary(V, thresh = V_thresh)
-
 SV_binary = np.zeros_like(sobelx)
 SV_binary[(S_binary == 1) & (V_binary == 1)] = 1
 
 avg_img = img_as_ubyte(np.average([S_binary, V_binary, RGB_combined, S_binary_2, combined], axis = 0))
-avg_thresh = (125,255)
 avg_binary = get_binary(avg_img, thresh = avg_thresh)
 
 final_avg = img_as_ubyte(np.average([SV_binary, avg_binary], axis = 0))
-final_thresh = (100,255)
-final_binary = get_binary(final_avg, thresh = final_thresh)`
+final_binary = get_binary(final_avg, thresh = final_thresh)
+```
 
-[Images of shit]
+![RGB Channels, Binary][image3]
+![]
 [RGB]
 [HLS]
 [HSV]

@@ -22,6 +22,7 @@
 [avg_binary]: ./reort_images/avg_and_binary.png "Averaged & Binary"
 [final_binary]: ./report_images/final_binary.png "Final Binary"
 [output]: /report_images/output_eg.png "Output Example"
+
 ---
 ### Brief Project Description
 

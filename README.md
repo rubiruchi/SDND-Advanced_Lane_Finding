@@ -11,12 +11,17 @@
 
 [//]: # (Image References)
 
-[image1]: ./report_images/camera_calibraton.png "Camera Calibration"
+[image1]: ./report_images/camera_calibration.png "Camera Calibration"
 [image2]: ./report_images/perspective_transform.png "Perspective Transform"
-[image3]: ./report_images/model_architecture.png "Model Architecture"
-[image4]: ./report_images/custom_roadsigns.png "German Traffic Signs taken from Google Streetview"
-[image5]: ./report_images/custom_roadsigns_predictions.png "Predictions for Traffic Signs taken from Google Streetview"
-
+[sobels]: ./report_images/sobels.png "Sobel Gradients"
+[sobel_combined]: ./report_images/sobel_combined.png "Sobel Combined"
+[rgbs]: ./report_images/rgbs.png "RGB Binary"
+[hlss]: ./report_images/hlss.png "HLS Binary"
+[hsvs]: ./report_images/hsvs.png "HSV Binary"
+[sv]: ./report_images/hlsandv.png "S & V Combined"
+[avg_binary]: ./reort_images/avg_and_binary.png "Averaged & Binary"
+[final_binary]: ./report_images/final_binary.png "Final Binary"
+[output]: /report_images/output_eg.png "Output Example"
 ---
 ### Brief Project Description
 
@@ -27,8 +32,6 @@ Frames from the video stream are undistorted via camera calibration. Various col
 All code references point to Lane_Finder.ipynb. The Lane() class can be found in line.py.
 
 ---
-
-
 
 ### Pipeline
 
@@ -70,34 +73,35 @@ avg_binary = get_binary(avg_img, thresh = avg_thresh)
 final_avg = img_as_ubyte(np.average([SV_binary, avg_binary], axis = 0))
 final_binary = get_binary(final_avg, thresh = final_thresh)
 ```
+![Sobel Gradients, Binary][sobels]
+![Sobel Combined][sobel_combined]
+![RGB Channels, Binary][rgbs]
+![HLS Channels, Binary][hlss]
+![HSV Channels, Binary][hsvs]
+![SV Combined, Binary][sv]
+![Average of Many][avg_binary]
 
-![RGB Channels, Binary][image3]
-![]
-[RGB]
-[HLS]
-[HSV]
-[Gradient]
-[Sobel]
-[Final Binary]
+And the final binary image, used for lane detection:
+
+![Final Binary][final_binary]
+
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-For the first frame, I conducted a window search which identified high density regions of nonzero pixel values. Once the first frame is processed and its lane markings identified, subsequent frames are processed by simply searching in a margin around the (average of) previous lane markings.
+For the first frame, I conducted a window search which identified high density regions of nonzero pixel values. Once the first frame is processed and its lane markings identified, subsequent frames are processed by simply searching in a margin around the (average of) previous lane markings. Information for each lane is saved in a(n unfortunately) global variable such that it can be recalled throughout the video processing method. These lane finding methods can be found in Input[10] (first frame) and Input[11] (all other frames)
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-Radius of curvature for the second degree polynomial estimating the lane marking was calculated using :::
+Radius of curvature for the second degree polynomial estimating the lane marking was calculated using the method described [here][http://www.intmath.com/applications-differentiation/8-radius-curvature.php]. Units were converted from pixels to meters using two pieces of important information: 1) the [standard lane width on US highways is 12 feet or 3.657 meters][https://safety.fhwa.dot.gov/geometric/pubs/mitigationstrategies/chapter3/3_lanewidth.cfm] and 2) the [length of a dashed lane marking is 10 feet or 3.04 meters][http://www.ctre.iastate.edu/pubs/itcd/pavement%20markings.pdf]. From these two pieces of information, it is elementary to derive how many vertical and horizontal pixels represent a meter. The code for calculating lane curvature can be found in Input[9]
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-[Example img of final]
+![Output Example][output]
 
 ### Video
+
+[Video Link][./result.mp4]
 
 ### Discussion
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
-
----
-
-### References

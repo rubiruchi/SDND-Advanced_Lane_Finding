@@ -6,9 +6,6 @@
 
 [GitHub Link](https://github.com/soniccrhyme/SDND-Project_4)
 
----
-
-
 [//]: # (Image References)
 
 [image1]: ./report_images/camera_calibration.png "Camera Calibration"
@@ -19,7 +16,7 @@
 [hlss]: ./report_images/hlss.png "HLS Binary"
 [hsvs]: ./report_images/hsvs.png "HSV Binary"
 [sv]: ./report_images/hlsandv.png "S & V Combined"
-[avg_binary]: ./reort_images/avg_and_binary.png "Averaged & Binary"
+[avg_binary]: ./report_images/avg_and_binary.png "Averaged & Binary"
 [final_binary]: ./report_images/final_binary.png "Final Binary"
 [output]: /report_images/output_eg.png "Output Example"
 

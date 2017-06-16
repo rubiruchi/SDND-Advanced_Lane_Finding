@@ -109,7 +109,7 @@ Radius of curvature for the second degree polynomial estimating the lane marking
 
 ### Video
 
-[Video Link](https://github.com/soniccrhyme/SDND-Project_4/blob/master/result.mp4)
+[Video Link](https://github.com/soniccrhyme/SDND-Project_4/blob/master/result.mp4)  
 [Challenge Video Link](https://github.com/soniccrhyme/SDND-Project_4/blob/master/result_challenge.mp4)
 
 ### Discussion

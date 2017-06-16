@@ -13,6 +13,7 @@
 [sobels]: ./report_images/sobels.png "Sobel Gradients"
 [sobel_combined]: ./report_images/sobel_combined.png "Sobel Combined"
 [rgbs]: ./report_images/rgbs.png "RGB Binary"
+[rgb_combined]: ./report_images/rgb_combined.png
 [hlss]: ./report_images/hlss.png "HLS Binary"
 [hsvs]: ./report_images/hsvs.png "HSV Binary"
 [sv]: ./report_images/hlsandv.png "S & V Combined"
@@ -64,10 +65,10 @@ H, L, S = get_HLS_channels(img)
 S_binary = get_binary(S, thresh = S_thresh)
 
 H2, S2, V = get_HSV_channels(img)
-SV_binary = np.zeros_like(sobelx)
+
 SV_binary[(S_binary == 1) & (V_binary == 1)] = 1
 
-avg_img = img_as_ubyte(np.average([S_binary, V_binary, RGB_combined, S_binary_2, combined], axis = 0))
+avg_img = img_as_ubyte(np.average([S_binary, V_binary, RGB_combined, S_binary_2, sobel_combined], axis = 0))
 avg_binary = get_binary(avg_img, thresh = avg_thresh)
 
 final_avg = img_as_ubyte(np.average([SV_binary, avg_binary], axis = 0))
@@ -79,6 +80,8 @@ Combining Sobel X with Gradient Magnitude & Direction:
 ![Sobel Combined][sobel_combined]
 RGB Channels:  
 ![RGB Channels, Binary][rgbs]
+RGB, Combined:  
+![RGB, Combined][rgb_combined]
 HLS Channls:  
 ![HLS Channels, Binary][hlss]
 HSV Channels:  
@@ -98,7 +101,7 @@ For the first frame, I conducted a window search which identified high density r
 
 #### 5. Radius of Curvature
 
-Radius of curvature for the second degree polynomial estimating the lane marking was calculated using the method described [here][http://www.intmath.com/applications-differentiation/8-radius-curvature.php]. Units were converted from pixels to meters using two pieces of important information: 1) the [standard lane width on US highways is 12 feet or 3.657 meters][https://safety.fhwa.dot.gov/geometric/pubs/mitigationstrategies/chapter3/3_lanewidth.cfm] and 2) the [length of a dashed lane marking is 10 feet or 3.04 meters][http://www.ctre.iastate.edu/pubs/itcd/pavement%20markings.pdf]. From these two pieces of information, it is elementary to derive how many vertical and horizontal pixels represent a meter. The code for calculating lane curvature can be found in Input[9]
+Radius of curvature for the second degree polynomial estimating the lane marking was calculated using the method described [here](http://www.intmath.com/applications-differentiation/8-radius-curvature.php). Units were converted from pixels to meters using two pieces of important information: 1) the [standard lane width on US highways is 12 feet or 3.657 meters](https://safety.fhwa.dot.gov/geometric/pubs/mitigationstrategies/chapter3/3_lanewidth.cfm) and 2) the [length of a dashed lane marking is 10 feet or 3.04 meters](http://www.ctre.iastate.edu/pubs/itcd/pavement%20markings.pdf). From these two pieces of information, it is elementary to derive how many vertical and horizontal pixels represent a meter. The code for calculating lane curvature can be found in Input[9]
 
 #### 6. Output screenshot
 
@@ -106,8 +109,8 @@ Radius of curvature for the second degree polynomial estimating the lane marking
 
 ### Video
 
-[Video Link][https://github.com/soniccrhyme/SDND-Project_4/blob/master/result.mp4]
-[Challenge Video Link][https://github.com/soniccrhyme/SDND-Project_4/blob/master/result_challenge.mp4]
+[Video Link](https://github.com/soniccrhyme/SDND-Project_4/blob/master/result.mp4)
+[Challenge Video Link](https://github.com/soniccrhyme/SDND-Project_4/blob/master/result_challenge.mp4)
 
 ### Discussion
 

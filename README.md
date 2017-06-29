@@ -4,7 +4,7 @@
 
 #### **Victor Roy**
 
-[GitHub Link](https://github.com/soniccrhyme/SDND-Project_4)
+[GitHub Link](https://github.com/soniccrhyme/SDND-Advanced_Lane_Finding)
 
 [//]: # (Image References)
 
@@ -28,13 +28,13 @@ This code detects lane markings, approximates their direction and curvature with
 
 Frames from the video stream are undistorted via camera calibration. Various color encodings, channels and gradient calculations and are combined in order to create a binary image which extracts lane markings. The image is perspective transformed into a top-down view of the road, wherein the lane markers should appear parallel. The binary image is then fed into a lane detection algorithm which uses nonzero pixel densities to trace the lane's direction and curvature. A second-degree polynomial is fit to both the left and right hand-side lanes. The resultant lane lines (along with text describing lane radii and car offset from center) are then overlaid upon the undistorted video feed and output to an .mp4.
 
-All code references point to Lane_Finder.ipynb. The Lane() class can be found in line.py.
+All code references point to ```Lane_Finder.ipynb```. The Lane() class can be found in ```line.py```.
 
 ---
 
 ### Pipeline
 
-Code for the pipeline is found in Input[14]. The pipeline itself calls several methods, from camera calibration to calculating the radius of curvature. These pipeline methods are described below.
+Code for the pipeline is found in ```Input[14]```. The pipeline itself calls several methods, from camera calibration to calculating the radius of curvature. These pipeline methods are described below.
 
 #### 1. Camera Calibration
 
@@ -42,11 +42,11 @@ The project folder (see Udacity's github link above) provided camera calibration
 
 ![Camera Calibration][image1]
 
-Code for this process found in Input[2]; camera calibration is also completed before entering the video processing pipeline, in Input[13]
+Code for this process found in ```Input[2]```; camera calibration is also completed before entering the video processing pipeline, in ```Input[13]```
 
 #### 2. Perspective Transform
 
-Frames are perspective transformed in order to provide a top-down view of the road section in question. Finding the transformation matrix begins with selecting source points of a trapezoidal polygon on the original image which you would want to be looking down upon in the transformed image; these points were manually selected with the logic of including at least 2 dashed lane markers. The destination points were chosen to allow sufficient width between the lanes in the top-down view. The process is depicted in the figure below; the code for the perspective transform can be found in Input[7]
+Frames are perspective transformed in order to provide a top-down view of the road section in question. Finding the transformation matrix begins with selecting source points of a trapezoidal polygon on the original image which you would want to be looking down upon in the transformed image; these points were manually selected with the logic of including at least 2 dashed lane markers. The destination points were chosen to allow sufficient width between the lanes in the top-down view. The process is depicted in the figure below; the code for the perspective transform can be found in ```Input[7]```
 
 ![Perspective Transform][image2]
 
@@ -54,7 +54,7 @@ Frames are perspective transformed in order to provide a top-down view of the ro
 
 In order to extract lane markings from the camera feed, the code uses a mixture of Sobel gradients (in x, y as well as in magnitude and direction) in addition to three different color encodings - RGB, HSV, & HSL. In order to aggregate information provided by the various channels, I used thresholding to create binary images of different color channels; those binary images were conjoined through binary logic operations and averaging.
 
-Images showing the various thresholded binary images of different color channels and gradients are shown below. The exact logic for combining these various factors into a final binary image for lane detection is as follows (excerpted from Input[8]):
+Images showing the various thresholded binary images of different color channels and gradients are shown below. The exact logic for combining these various factors into a final binary image for lane detection is as follows (excerpted from ```Input[8]```):
 
 ```python
 sobel_combined[((sobelx == 1) & (dirt == 1)) & (mag == 1)] = 1
@@ -97,7 +97,7 @@ And the final binary image, used for lane detection:
 
 #### 4. Lane Marking Detection and Lane Line Fitting
 
-For the first frame, I conducted a window search which identified high density regions of nonzero pixel values. Once the first frame is processed and its lane markings identified, subsequent frames are processed by simply searching in a margin around the (average of) previous lane markings. Information for each lane is saved in a(n unfortunately) global variable such that it can be recalled throughout the video processing method. These lane finding methods can be found in Input[10] (first frame) and Input[11] (all other frames)
+For the first frame, I conducted a window search which identified high density regions of nonzero pixel values. Once the first frame is processed and its lane markings identified, subsequent frames are processed by simply searching in a margin around the (average of) previous lane markings. Information for each lane is saved in a(n unfortunately) global variable such that it can be recalled throughout the video processing method. These lane finding methods can be found in ``Input[10]`` (first frame) and ```Input[11]``` (all other frames)``
 
 #### 5. Radius of Curvature
 
@@ -126,4 +126,4 @@ The code as written, however, still fails rather miserably on the harder challen
 
 Other potential problems which became apparent when attempting to process the harder challenge video was how the code dealt with low contrast situations (such as when there is much glare from the sun, or when the car is in shadows, or when the horizon has both extreme brightness and shadow). Analogous to having dynamic forward sight range for various levels of road twistiness, it would be nice to implement dynamic image processing for different lighting conditions, such as using color different channels or different thresholds.
 
-Oh yeah, and it's slow. Right now, on my local machine (Intel i3 @ 1.6 GHz) it takes about 1 s/frame; at ~30fps, this is about 50x slower than it needs to be to comfortably run in real time. I haven't looked too much into which computations are the expensive ones, but my sneaking suspicion is that most of the time is being spent generating the binary image. 
+Oh yeah, and it's slow. Right now, on my local machine (Intel i3 @ 1.6 GHz) it takes about 1 s/frame; at ~30fps, this is about 50x slower than it needs to be to comfortably run in real time. I haven't looked too much into which computations are the expensive ones, but my sneaking suspicion is that most of the time is being spent generating the binary image.

@@ -8,8 +8,6 @@ Lane Class. Or line. Lane Line, but that's verbose.
 @author: ucalegon
 """
 
-# TODO: Clean this up, keep only what you need
-
 # Define a class to receive the characteristics of each line detection
 class Lane():
     def __init__(self):
